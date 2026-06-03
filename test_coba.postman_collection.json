@@ -1,0 +1,531 @@
+{
+  "info": {
+    "_postman_id": "fb04e883-1fa6-4125-a7cd-e3f60ddd82a7",
+    "name": "test_coba",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54717346",
+    "_collection_link": "https://go.postman.co/collection/54717346-fb04e883-1fa6-4125-a7cd-e3f60ddd82a7?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "produk",
+      "item": [
+        {
+          "name": "Tambah Produk",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTAyZTJkMmUzNmVmODBmZWZjM2JiNmMiLCJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzc5MTc5NTc4LCJleHAiOjE3NzkyNjU5Nzh9.2DvS94GsJLaEqJS73y1kQKP4yEfq_HfIzl65trSRiYE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Indomie Goreng\",\r\n  \"price\": 3500,\r\n  \"category\": \"makanan\",\r\n  \"unit\": \"Pcs\",\r\n  \"hasVariants\": true,\r\n  \"variants\": [\r\n    { \"variantName\": \"Ayam Geprek\", \"stock\": 40 },\r\n    { \"variantName\": \"Aceh\", \"stock\": 35 },\r\n    { \"variantName\": \"Rendang\", \"stock\": 25 }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/tambah",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "tambah"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read Produk",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTAyZTJkMmUzNmVmODBmZWZjM2JiNmMiLCJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzc5MTc5NTc4LCJleHAiOjE3NzkyNjU5Nzh9.2DvS94GsJLaEqJS73y1kQKP4yEfq_HfIzl65trSRiYE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "[\r\n    {\r\n        \"_id\": \"6a0205a0e22699f952e51a1a\",\r\n        \"name\": \"Lenovo V14 RAM 16GB\",\r\n        \"price\": 8500000,\r\n        \"category\": \"Laptop\",\r\n        \"__v\": 0\r\n    }\r\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/produk?page=1&limit=3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "produk"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "limit",
+                  "value": "3",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Edit Produk",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTAyZTJkMmUzNmVmODBmZWZjM2JiNmMiLCJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzc5MTc5NTc4LCJleHAiOjE3NzkyNjU5Nzh9.2DvS94GsJLaEqJS73y1kQKP4yEfq_HfIzl65trSRiYE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"bola piala dunia\",\r\n  \"price\": 30000,\r\n  \"stock\": 50,\r\n  \"unit\": \"Pcs\",\r\n  \"category\": \"bola\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/edit/6a0329100d42ca0a7bdfc7dc",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "edit",
+                "6a0329100d42ca0a7bdfc7dc"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Produk",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTAyZTJkMmUzNmVmODBmZWZjM2JiNmMiLCJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzc5MTc5NTc4LCJleHAiOjE3NzkyNjU5Nzh9.2DvS94GsJLaEqJS73y1kQKP4yEfq_HfIzl65trSRiYE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "[\r\n    {\r\n        \"_id\": \"6a0205a0e22699f952e51a1a\",\r\n        \"name\": \"Lenovo V14 RAM 16GB\",\r\n        \"price\": 8500000,\r\n        \"category\": \"Laptop\",\r\n        \"__v\": 0\r\n    }\r\n]"
+            },
+            "url": {
+              "raw": "http://localhost:3000/hapus/6a031dbfe95c53d187dc8a1b",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "hapus",
+                "6a031dbfe95c53d187dc8a1b"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"admin3\",\r\n  \"password\": \"admin1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"admin\",\r\n  \"password\": \"password123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/auth/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "unit",
+      "item": [
+        {
+          "name": "Tambah Unit",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTAzMWQ1NWU5NWM1M2QxODdkYzhhMWEiLCJ1c2VybmFtZSI6ImFkbWluMiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3ODU5Mzg1MSwiZXhwIjoxNzc4NjgwMjUxfQ.poIp-2JfY4ZX48vxlxdR9qqrtb2Y5zcm5sxs9jlu7bI",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Pcs\",\r\n  \"description\": \"Satuan unit terkecil (pieces)\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/unit",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "unit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read Unit",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTAyZTJkMmUzNmVmODBmZWZjM2JiNmMiLCJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzc5MTc5NTc4LCJleHAiOjE3NzkyNjU5Nzh9.2DvS94GsJLaEqJS73y1kQKP4yEfq_HfIzl65trSRiYE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/unit",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "unit"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "order",
+      "item": [
+        {
+          "name": "Check Out Order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/order",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "order"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/order/cancel/INV-1778923758692-8608",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "order",
+                "cancel",
+                "INV-1778923758692-8608"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Payment Order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/order/pay/INV-1778923788607-5134",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "order",
+                "pay",
+                "INV-1778923788607-5134"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Succes Order",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/order/success/INV-1778923788607-5134",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "order",
+                "success",
+                "INV-1778923788607-5134"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTAyZTU3M2Q5OTFlYmFlNDM5ZjkzODAiLCJ1c2VybmFtZSI6ImplbmRvIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NzkxOTI3MTgsImV4cCI6MTc3OTI3OTExOH0.vltJtx81Fo5WzPb0QjWvi1hvZD8D-HIuZ9SudFazAsw",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "cart",
+      "item": [
+        {
+          "name": "Tambah Cart",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"productId\": \"6a03428fc575948cb7f3016c\", \r\n    \"quantity\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/cart",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "cart"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read Cart",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/cart",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "cart"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTAyZTU3M2Q5OTFlYmFlNDM5ZjkzODAiLCJ1c2VybmFtZSI6ImplbmRvIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NzkxOTI3MTgsImV4cCI6MTc3OTI3OTExOH0.vltJtx81Fo5WzPb0QjWvi1hvZD8D-HIuZ9SudFazAsw",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
