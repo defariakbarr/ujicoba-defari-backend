@@ -12,25 +12,37 @@ export class Order {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
   buyer?: string; // Siapa yang beli
 
-  // Array berisi produk-produk yang dibeli beserta jumlahnya
+  // 👇 INI BLOK YANG GUA UBAH MEN! SUDAH ADA STORE_ID & VARIANT_NAME 👇
   @Prop([
     {
       product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
       quantity: { type: Number, required: true },
-      priceAtPurchase: { type: Number, required: true }, // Harga pas dibeli (biar kalau harga produk naik, histori gak berubah)
+      priceAtPurchase: { type: Number, required: true }, // Harga pas dibeli
+      variantName: { type: String, required: false }, // Biar varian gak hilang
+      storeId: { type: mongoose.Schema.Types.ObjectId, ref: 'Store', required: true } // KUNCI UTAMA HISTORI TOKO
     },
   ])
   items!: Array<{
     product: string;
     quantity: number;
     priceAtPurchase: number;
+    variantName?: string;
+    storeId: string;
   }>;
+  // 👆 SAMPAI SINI 👆
 
   @Prop({ required: true })
-  totalPrice!: number;
+  shippingCost!: number; // Ongkir
 
-  @Prop({ default: 'PENDING' }) // PENDING, PAID, SHIPPED, SUCCESS, CANCELLED
+  @Prop({ required: true })
+  totalPrice!: number; // Total gabungan (Harga Produk + Ongkir)
+
+  // PENDING, PAID, PROCESSED, SHIPPED, DELIVERED, SUCCESS, CANCELLED
+  @Prop({ default: 'PENDING' }) 
   status?: string;
+
+  @Prop({ type: String, default: null }) 
+  resiNumber!: string | null;
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);

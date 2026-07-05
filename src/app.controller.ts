@@ -35,18 +35,20 @@ export class AppController {
     @Query('name') name?: string,
     @Query('category') category?: string,
     @Query('variant') variant?: string,
+    @Query('storeId') storeId?: string,
     @Query('sortBy') sortBy?: string,
     @Query('order') order?: 'asc' | 'desc',
     @Query('page') page?: number,
     @Query('limit') limit?: number, 
   ) {
-    return this.appService.getAllProducts(name, category, variant, sortBy, order, page, limit);
+    return this.appService.getAllProducts(name, category, variant, storeId, sortBy, order, page, limit);
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Put('edit/:id')
+  @Put('produk/edit/:id')
   async editProduk(@Param('id') id: string, @Body() body: any, @Req() req: any) {
-    return this.appService.updateProduct(id, body, req.user.userId);
+    const idUser = req.user?.sub || req.user?.userId;
+    return this.appService.updateProduct(id, body, idUser);
   }
 
   @Post('produk/:id/tambah-varian')
@@ -83,28 +85,78 @@ export class AppController {
     return this.appService.payOrder(invoiceNumber);
   }
 
+  // ENDPOINT TRACKING BARU 1: Toko memproses pesanan (PAID -> PROCESSED)
+  @Put('order/process/:invoiceNumber')
+  async prosesOrderan(@Param('invoiceNumber') invoiceNumber: string) {
+    return this.appService.processOrder(invoiceNumber);
+  }
+
+  // ENDPOINT TRACKING BARU 2: Toko input nomor resi (PROCESSED -> SHIPPED)
+  @Put('order/ship/:invoiceNumber')
+  async kirimOrderan(@Param('invoiceNumber') invoiceNumber: string) {
+    return this.appService.shipOrder(invoiceNumber);
+  }
+
+  // ENDPOINT TRACKING BARU 3: Paket sampai tujuan (SHIPPED -> DELIVERED)
+  @Put('order/deliver/:invoiceNumber')
+  async sampaiOrderan(@Param('invoiceNumber') invoiceNumber: string) {
+    return this.appService.deliverOrder(invoiceNumber);
+  }
+
   @Put('order/success/:invoiceNumber')
-  async selesaiOrder(@Param('invoiceNumber') invoiceNumber: string) {
+  async selesaiOrder(
+    @Param('invoiceNumber') invoiceNumber: string
+  ) {
     return this.appService.successOrder(invoiceNumber);
   }
 
- // --- CART ENDPOINTS ---
+  // HISTORI PESANAN PEMBELI   
+  @UseGuards(AuthGuard('jwt'))
+  @Get('orders/buyer')
+  async lihatOrderanSaya(
+    @Req() req: any, 
+    @Query('status') status?: string
+  ) {
+    const idUser = req.user?.sub || req.user?.userId;
+    if (!idUser) {
+      throw new BadRequestException('ID User tidak ditemukan di token, men!');
+    }
+    return this.appService.getBuyerOrders(idUser, status);
+  }
+
+  // DAFTAR PESANAN MASUK KE TOKO (SISI PENJUAL) 
+  @UseGuards(AuthGuard('jwt'))
+  @Get('orders/store/:storeId')
+  async lihatOrderanMasukToko(
+    @Param('storeId') storeId: string,
+    @Query('status') status?: string
+  ) {
+    return this.appService.getStoreOrders(storeId, status);
+  }
+
+  // --- CART ENDPOINTS ---
   @UseGuards(AuthGuard('jwt'))
   @Post('cart')
-  async addProductToCart(@Req() req: any, @Body() body: { productId: string; quantity: number }) {
-    // KITA INTIP DI TERMINAL: Apa isi req.user yang dikirim oleh JwtStrategy
+  async addProductToCart(
+    @Req() req: any, 
+    @Body() body: { productId: string; quantity: number; variantName?: string; storeId: string }
+  ) {
     console.log('--- DEBUG POST CART ---');
-    console.log('Isi req.user dari token:', req.user);
     console.log('Isi body dari Postman:', body);
 
-    // Pengaman ekstra: Kalau JwtStrategy lu ngirimnya 'sub', kita pake 'sub'. Kalau 'userId', kita pake 'userId'.
     const idUser = req.user?.sub || req.user?.userId;
-
     if (!idUser) {
-      throw new BadRequestException('ID User tidak terbaca di dalam token! Cek JwtStrategy kamu.');
+      throw new BadRequestException('ID User tidak terbaca di dalam token!');
     }
 
-    return this.appService.addToCart(idUser, body.productId, body.quantity); 
+    // Kasih operator || 'Polosan' biar argumen ke-4 DIJAMIN string murni, bukan undefined!
+    return this.appService.addToCart(
+      idUser, 
+      body.productId, 
+      body.quantity, 
+      body.variantName || 'Polosan', 
+      body.storeId
+    ); 
   }
 
   @UseGuards(AuthGuard('jwt'))
@@ -113,4 +165,37 @@ export class AppController {
     const idUser = req.user?.sub || req.user?.userId;
     return this.appService.getCart(idUser); 
   }
-}
+
+  // --- STORE / MERCHANT ENDPOINTS ---
+  @UseGuards(AuthGuard('jwt'))
+  @Post('store/tambah')
+  async createStore(@Body() body: any, @Req() req: any) {
+    const idUser = req.user?.sub || req.user?.userId;
+    if (!idUser) {
+      throw new BadRequestException('ID User tidak ditemukan di token!');
+    }
+    return this.appService.createStore(body, idUser);
+  }
+
+  @Get('store')
+  async lihatSemuaToko() {
+    return this.appService.getAllStores();
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Put('store/edit/:id')
+  async editStore(@Param('id') id: string, @Body() body: any) {
+    return this.appService.updateStore(id, body);
+  }
+
+@Post('voucher')
+  async buatVoucherBaru(@Body() body: any) {
+    return this.appService.createVoucher(body);
+  }
+
+  // DASHBOARD TOKO 
+  @Get('store/dashboard/:storeId')
+  async getDashboard(@Param('storeId') storeId: string) {
+    return this.appService.getStoreDashboard(storeId);
+  }
+} 

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import * as mongoose from 'mongoose'; // Gaya lu yang wajib ada
 
 export type ProductDocument = Product & Document;
@@ -24,8 +24,11 @@ export class Product {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Unit' }) 
   unit?: string;
 
-  // Catatan: Field stock bawaan produk di sini bisa lu hapus atau biarin aja.
-  // Tapi saran gua mending dihapus total biar datanya bener-bener murni ngambil dari collection Stock nanti via populate/aggregate.
+  @Prop({ type: Types.ObjectId, ref: 'Store', required: true })
+  storeId?: Types.ObjectId; 
+
+  @Prop({ type: Number, default: 0 }) // <-- TAMBAHIN FIELD INI CU!
+  weight!: number;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
